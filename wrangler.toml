@@ -1,0 +1,30 @@
+name = "micro-tools"
+compatibility_date = "2024-07-01"
+pages_build_output_dir = "out"
+
+# ─────────────────────────────────────────────
+# Cloudflare Pages + Workers 配置
+# ─────────────────────────────────────────────
+# 本项目主体是 Next.js 静态导出（output: 'export'），产物在 out/
+# 边缘动态能力由 functions/ 目录下的 Pages Functions 提供
+#
+# 本地开发预览边缘函数：
+#   npx wrangler pages dev out --compatibility-date=2024-07-01
+#
+# 部署到 Cloudflare Pages：
+#   npm run build && npm run deploy
+# ─────────────────────────────────────────────
+
+# 可选：绑定 KV 用于统计 / 短链等动态能力
+# [[kv_namespaces]]
+# binding = "TOOL_STATS"
+# id = "your-kv-namespace-id"
+
+# 可选：环境变量
+# [vars]
+# ANALYTICS_ENDPOINT = "https://example.com/ingest"
+
+# 可选：Durable Objects（如需有状态边缘逻辑）
+# [[durable_objects.bindings]]
+# name = "COUNTER"
+# class_name = "CounterDO"
