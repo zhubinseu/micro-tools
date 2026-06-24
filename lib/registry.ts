@@ -35,7 +35,8 @@ export type ToolCategory =
   | 'encoder' // 编解码
   | 'formatter' // 格式化
   | 'generator' // 生成器
-  | 'media'; // 图片/音视频处理
+  | 'media' // 图片/音视频处理
+  | 'physics'; // 物理模拟与可视化
 
 /**
  * 工具元数据接口
@@ -93,6 +94,10 @@ export const TOOL_CATEGORIES: Record<
   media: {
     label: '图片与媒体',
     description: '图片压缩、格式转换等媒体处理工具',
+  },
+  physics: {
+    label: '物理模拟',
+    description: '基于 Matter.js 的 2D 物理引擎可视化与配置工具',
   },
 };
 
@@ -178,6 +183,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     keywords: ['image', 'compress', 'compressor', 'resize', 'webp', 'jpeg', 'png', 'canvas', '图片', '压缩', '格式转换', '缩放'],
     icon: 'Images',
     componentPath: '@/components/tools/image-compressor',
+    runtime: 'client',
+  },
+
+  // --- 物理模拟类 ------------------------------------------------------------
+  {
+    id: 'physics-configurator',
+    name: 'Matter.js 物理配置器',
+    description: '可视化调整摩擦/弹性/密度/重力，实时观察物体物理行为，导出 JSON 配置',
+    category: 'physics',
+    keywords: ['matter.js', 'matter', 'physics', 'simulation', 'friction', 'restitution', 'density', 'gravity', '物理', '模拟', '弹性', '摩擦', '重力', '碰撞', 'canvas'],
+    icon: 'Atom',
+    componentPath: '@/components/tools/physics-configurator',
     runtime: 'client',
   },
 ];

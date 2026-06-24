@@ -63,6 +63,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
     loading: ToolLoading,
     ssr: false,
   }),
+  'physics-configurator': dynamic(() => import('@/components/tools/physics-configurator'), {
+    loading: ToolLoading,
+    ssr: false,
+  }),
 };
 
 interface ToolLoaderProps {
