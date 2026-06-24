@@ -34,7 +34,8 @@ export type ToolCategory =
   | 'converter' // 转换器
   | 'encoder' // 编解码
   | 'formatter' // 格式化
-  | 'generator'; // 生成器
+  | 'generator' // 生成器
+  | 'media'; // 图片/音视频处理
 
 /**
  * 工具元数据接口
@@ -88,6 +89,10 @@ export const TOOL_CATEGORIES: Record<
   generator: {
     label: '生成器',
     description: 'UUID、密码、Lorem 等内容生成工具',
+  },
+  media: {
+    label: '图片与媒体',
+    description: '图片压缩、格式转换等媒体处理工具',
   },
 };
 
@@ -161,6 +166,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     keywords: ['worker', 'web worker', 'wasm', 'compute', 'heavy', 'background', '计算', '后台', 'worker demo'],
     icon: 'Cpu',
     componentPath: '@/components/tools/heavy-compute-demo',
+    runtime: 'client',
+  },
+
+  // --- 图片与媒体类 ----------------------------------------------------------
+  {
+    id: 'image-compressor',
+    name: '图片压缩与格式转换',
+    description: '拖拽多图本地压缩，支持质量/尺寸调节与 PNG/JPEG/WebP 格式互转，零上传',
+    category: 'media',
+    keywords: ['image', 'compress', 'compressor', 'resize', 'webp', 'jpeg', 'png', 'canvas', '图片', '压缩', '格式转换', '缩放'],
+    icon: 'Images',
+    componentPath: '@/components/tools/image-compressor',
     runtime: 'client',
   },
 ];

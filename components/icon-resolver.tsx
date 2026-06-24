@@ -14,6 +14,7 @@ import {
   Link2,
   Type,
   Cpu,
+  Images,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -25,6 +26,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Link2,
   Type,
   Cpu,
+  Images,
 };
 
 /** 默认回退图标 */
