@@ -13,6 +13,7 @@ import {
   FileJson,
   Link2,
   Type,
+  Cpu,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -23,6 +24,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   FileJson,
   Link2,
   Type,
+  Cpu,
 };
 
 /** 默认回退图标 */

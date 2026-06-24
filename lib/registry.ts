@@ -151,6 +151,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     componentPath: '@/components/tools/hash-generator',
     runtime: 'client',
   },
+
+  // --- 演示与基准 ------------------------------------------------------------
+  {
+    id: 'heavy-compute-demo',
+    name: 'Web Worker 计算演示',
+    description: '将大数组求和/排序/统计等重型计算卸载到后台 Worker，UI 保持流畅',
+    category: 'converter',
+    keywords: ['worker', 'web worker', 'wasm', 'compute', 'heavy', 'background', '计算', '后台', 'worker demo'],
+    icon: 'Cpu',
+    componentPath: '@/components/tools/heavy-compute-demo',
+    runtime: 'client',
+  },
 ];
 
 // ---------------------------------------------------------------------------

@@ -55,6 +55,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
     loading: ToolLoading,
     ssr: false,
   }),
+  'heavy-compute-demo': dynamic(() => import('@/components/tools/heavy-compute-demo'), {
+    loading: ToolLoading,
+    ssr: false,
+  }),
 };
 
 interface ToolLoaderProps {
