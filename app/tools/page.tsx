@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import {
   Card,
@@ -9,7 +8,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { getToolsByCategory, TOOL_CATEGORIES, type ToolCategory } from '@/lib/tools';
+import { resolveIcon } from '@/components/icon-resolver';
+import {
+  getToolsByCategory,
+  TOOL_CATEGORIES,
+  type ToolCategory,
+} from '@/lib/registry';
 
 export const metadata = {
   title: '所有工具',
@@ -42,18 +46,9 @@ export default function ToolsPage() {
             <Separator className="mb-6" />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map((tool) => {
-                const Icon = tool.icon;
+                const Icon = resolveIcon(tool.icon);
                 return (
-                  <Link
-                    key={tool.slug}
-                    href={tool.available ? `/tools/${tool.slug}` : '#'}
-                    aria-disabled={!tool.available}
-                    className={
-                      tool.available
-                        ? ''
-                        : 'pointer-events-none opacity-50'
-                    }
-                  >
+                  <Link key={tool.id} href={`/tools/${tool.id}`}>
                     <Card className="h-full transition-all hover:border-primary/50 hover:shadow-md">
                       <CardHeader>
                         <div className="flex items-center gap-3">
@@ -64,21 +59,24 @@ export default function ToolsPage() {
                             <CardTitle className="text-base">
                               {tool.name}
                             </CardTitle>
-                            {tool.heavy && (
-                              <span className="text-xs text-muted-foreground">
-                                WASM · Worker
-                              </span>
-                            )}
+                            <span className="text-xs text-muted-foreground">
+                              {tool.runtime === 'edge' ? 'Edge API' : '客户端计算'}
+                            </span>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent>
                         <CardDescription>{tool.description}</CardDescription>
-                        {!tool.available && (
-                          <span className="mt-2 inline-block text-xs text-muted-foreground">
-                            即将上线
-                          </span>
-                        )}
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {tool.keywords.slice(0, 3).map((kw) => (
+                            <span
+                              key={kw}
+                              className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                            >
+                              {kw}
+                            </span>
+                          ))}
+                        </div>
                       </CardContent>
                     </Card>
                   </Link>

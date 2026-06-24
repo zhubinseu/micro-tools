@@ -3,10 +3,8 @@
 import { useState, useCallback } from 'react';
 import { Loader2, Copy, Check } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
   Card,
   CardContent,
@@ -16,13 +14,13 @@ import {
 } from '@/components/ui/card';
 import { useHashWorker } from '@/hooks/use-hash-worker';
 import { useToolStore } from '@/store';
-import { getTool } from '@/lib/tools';
+import { getToolById } from '@/lib/registry';
 
 const ALGORITHMS = ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'] as const;
 type Algorithm = (typeof ALGORITHMS)[number];
 
-export default function HashGeneratorPage() {
-  const tool = getTool('hash-generator')!;
+export default function HashGenerator() {
+  const tool = getToolById('hash-generator')!;
   const { hash, isComputing, isSupported, error } = useHashWorker();
   const recordUse = useToolStore((s) => s.recordUse);
 
@@ -39,7 +37,7 @@ export default function HashGeneratorPage() {
     }
 
     setResults(newResults);
-    recordUse(tool.slug, tool.name);
+    recordUse(tool.id, tool.name);
   }, [input, hash, recordUse, tool]);
 
   const handleCopy = async (value: string) => {
@@ -49,23 +47,18 @@ export default function HashGeneratorPage() {
   };
 
   return (
-    <div className="container max-w-4xl py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight">{tool.name}</h1>
-        <p className="mt-1 text-muted-foreground">{tool.description}</p>
-        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-          <span
-            className={`inline-flex h-2 w-2 rounded-full ${
-              isSupported ? 'bg-green-500' : 'bg-amber-500'
-            }`}
-          />
-          {isSupported ? 'Web Worker 已启用' : '回退到主线程计算'}
-        </div>
+    <div className="space-y-4">
+      {/* Worker 状态指示 */}
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <span
+          className={`inline-flex h-2 w-2 rounded-full ${
+            isSupported ? 'bg-green-500' : 'bg-amber-500'
+          }`}
+        />
+        {isSupported ? 'Web Worker 已启用' : '回退到主线程计算'}
       </div>
 
-      <Separator className="mb-8" />
-
-      <Card className="mb-6">
+      <Card>
         <CardHeader>
           <CardTitle className="text-base">输入文本</CardTitle>
           <CardDescription>输入任意文本，将计算多种哈希值</CardDescription>
@@ -81,10 +74,7 @@ export default function HashGeneratorPage() {
               onChange={(e) => setInput(e.target.value)}
             />
           </div>
-          <Button
-            onClick={compute}
-            disabled={!input || isComputing}
-          >
+          <Button onClick={compute} disabled={!input || isComputing}>
             {isComputing ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -98,7 +88,7 @@ export default function HashGeneratorPage() {
       </Card>
 
       {error && (
-        <div className="mb-6 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+        <div className="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
           计算出错：{error}
         </div>
       )}

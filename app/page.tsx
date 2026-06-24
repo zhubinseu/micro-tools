@@ -9,10 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { getAvailableTools, getToolsByCategory, TOOL_CATEGORIES } from '@/lib/tools';
+import { resolveIcon } from '@/components/icon-resolver';
+import { getAllTools, getToolsByCategory, TOOL_CATEGORIES } from '@/lib/registry';
 
 export default function HomePage() {
-  const tools = getAvailableTools();
+  const tools = getAllTools();
   const grouped = getToolsByCategory();
 
   return (
@@ -71,9 +72,9 @@ export default function HomePage() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => {
-            const Icon = tool.icon;
+            const Icon = resolveIcon(tool.icon);
             return (
-              <Link key={tool.slug} href={`/tools/${tool.slug}`}>
+              <Link key={tool.id} href={`/tools/${tool.id}`}>
                 <Card className="h-full transition-all hover:border-primary/50 hover:shadow-md">
                   <CardHeader>
                     <div className="flex items-center gap-3">
@@ -82,11 +83,9 @@ export default function HomePage() {
                       </div>
                       <div>
                         <CardTitle className="text-base">{tool.name}</CardTitle>
-                        {tool.heavy && (
-                          <span className="text-xs text-muted-foreground">
-                            WASM · Worker
-                          </span>
-                        )}
+                        <span className="text-xs text-muted-foreground">
+                          {tool.runtime === 'edge' ? 'Edge' : '客户端'}
+                        </span>
                       </div>
                     </div>
                   </CardHeader>

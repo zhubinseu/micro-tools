@@ -1,21 +1,18 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { ArrowRight, Copy, Check } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { useToolStore } from '@/store';
-import { getTool } from '@/lib/tools';
+import { getToolById } from '@/lib/registry';
 
 const BASES = [
   { label: '二进制 (BIN)', base: 2, prefix: '0b' },
@@ -24,8 +21,8 @@ const BASES = [
   { label: '十六进制 (HEX)', base: 16, prefix: '0x' },
 ] as const;
 
-export default function BaseConverterPage() {
-  const tool = getTool('base-converter')!;
+export default function BaseConverter() {
+  const tool = getToolById('base-converter')!;
   const recordUse = useToolStore((s) => s.recordUse);
 
   const [values, setValues] = useState<Record<number, string>>({
@@ -37,30 +34,31 @@ export default function BaseConverterPage() {
   const [copied, setCopied] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // 从某个进制更新所有其他进制
-  const updateFromBase = useCallback((fromBase: number, value: string) => {
-    setError(null);
+  const updateFromBase = useCallback(
+    (fromBase: number, value: string) => {
+      setError(null);
 
-    if (!value.trim()) {
-      setValues({ 2: '', 8: '', 10: '', 16: '' });
-      return;
-    }
+      if (!value.trim()) {
+        setValues({ 2: '', 8: '', 10: '', 16: '' });
+        return;
+      }
 
-    try {
-      // BigInt 支持任意大整数，避免 Number 精度丢失
-      const num = BigInt(value);
-      setValues({
-        2: num.toString(2),
-        8: num.toString(8),
-        10: num.toString(10),
-        16: num.toString(16).toUpperCase(),
-      });
-      recordUse(tool.slug, tool.name);
-    } catch {
-      setError(`无法解析为有效的 ${fromBase} 进制数字`);
-      setValues((prev) => ({ ...prev, [fromBase]: value }));
-    }
-  }, [recordUse, tool]);
+      try {
+        const num = BigInt(value);
+        setValues({
+          2: num.toString(2),
+          8: num.toString(8),
+          10: num.toString(10),
+          16: num.toString(16).toUpperCase(),
+        });
+        recordUse(tool.id, tool.name);
+      } catch {
+        setError(`无法解析为有效的 ${fromBase} 进制数字`);
+        setValues((prev) => ({ ...prev, [fromBase]: value }));
+      }
+    },
+    [recordUse, tool],
+  );
 
   const handleCopy = async (base: number) => {
     await navigator.clipboard.writeText(values[base]);
@@ -69,19 +67,9 @@ export default function BaseConverterPage() {
   };
 
   return (
-    <div className="container max-w-4xl py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight">{tool.name}</h1>
-        <p className="mt-1 text-muted-foreground">{tool.description}</p>
-        <p className="mt-2 text-xs text-muted-foreground">
-          支持 BigInt，可处理超大整数。输入任意一个进制，其余自动同步。
-        </p>
-      </div>
-
-      <Separator className="mb-8" />
-
+    <div className="space-y-4">
       {error && (
-        <div className="mb-6 rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+        <div className="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
           {error}
         </div>
       )}
@@ -95,9 +83,7 @@ export default function BaseConverterPage() {
             <CardContent>
               <div className="flex items-center gap-2">
                 {prefix && (
-                  <span className="text-sm text-muted-foreground">
-                    {prefix}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{prefix}</span>
                 )}
                 <Input
                   value={values[base]}
@@ -123,7 +109,7 @@ export default function BaseConverterPage() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
+      <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
         <p className="font-medium text-foreground">使用说明</p>
         <ul className="mt-2 space-y-1">
           <li>• 在任意进制输入框中输入数字，其他进制会自动同步</li>
