@@ -197,6 +197,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     componentPath: '@/components/tools/physics-configurator',
     runtime: 'client',
   },
+
+  // --- 格式化类 --------------------------------------------------------------
+  {
+    id: 'json-formatter',
+    name: 'JSON 格式化',
+    description: 'JSON 美化 / 压缩 / 校验，支持 2/4 空格与 Tab 缩进，实时错误提示',
+    category: 'formatter',
+    keywords: ['json', 'format', 'beautify', 'minify', 'pretty', 'validate', 'parse', '格式化', '美化', '压缩', '校验', '缩进'],
+    icon: 'Braces',
+    componentPath: '@/components/tools/json-formatter',
+    runtime: 'client',
+  },
 ];
 
 // ---------------------------------------------------------------------------
