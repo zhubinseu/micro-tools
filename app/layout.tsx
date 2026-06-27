@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SiteHeader } from '@/components/site-header';
@@ -67,6 +68,24 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        {/* 百度统计 */}
+        <Script id="baidu-analytics" strategy="afterInteractive">
+          {`
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?e454b73e32373f77a75fc4a10608150d";
+              var s = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(hm, s);
+            })();
+          `}
+        </Script>
+        {/* 谷歌 AdSense */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8985687724746847"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
