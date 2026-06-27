@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Zap, Shield, Cpu } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import {
   Card,
@@ -35,29 +35,12 @@ export default function HomePage() {
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link href="/tools/hash-generator">试用哈希生成器</Link>
+            <Link href="/tools/mbti-test">试用 MBTI 测试</Link>
           </Button>
         </div>
       </section>
 
-      {/* 特性 */}
-      <section className="mx-auto mt-16 grid max-w-4xl gap-6 sm:grid-cols-3">
-        <FeatureCard
-          icon={Zap}
-          title="边缘加速"
-          desc="静态资源由 Cloudflare Pages 全球 CDN 分发，毫秒级加载"
-        />
-        <FeatureCard
-          icon={Shield}
-          title="本地计算"
-          desc="数据永不离开浏览器，哈希、转换等运算均在客户端完成"
-        />
-        <FeatureCard
-          icon={Cpu}
-          title="WASM 加速"
-          desc="重度计算任务通过 WebAssembly / Web Workers 并行执行"
-        />
-      </section>
+      {/* 特性卡片已隐藏 */}
 
       {/* 工具预览 */}
       <section className="mt-20">
@@ -125,22 +108,5 @@ export default function HomePage() {
   );
 }
 
-function FeatureCard({
-  icon: Icon,
-  title,
-  desc,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="rounded-lg border p-6 text-center">
-      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-        <Icon className="h-6 w-6 text-primary" />
-      </div>
-      <h3 className="font-semibold">{title}</h3>
-      <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
-    </div>
-  );
-}
+// 特性卡片组件（已隐藏，保留以备后续恢复）
+// function FeatureCard({ ... }) { ... }

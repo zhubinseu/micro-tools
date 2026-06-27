@@ -34,6 +34,12 @@ export function SiteHeader() {
             首页
           </Link>
           <Link
+            href="/tools/mbti-test"
+            className="text-foreground/60 transition-colors hover:text-foreground"
+          >
+            MBTI 测试
+          </Link>
+          <Link
             href="/tools"
             className="text-foreground/60 transition-colors hover:text-foreground"
           >
