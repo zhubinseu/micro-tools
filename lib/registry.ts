@@ -36,7 +36,8 @@ export type ToolCategory =
   | 'formatter' // 格式化
   | 'generator' // 生成器
   | 'media' // 图片/音视频处理
-  | 'physics'; // 物理模拟与可视化
+  | 'physics' // 物理模拟与可视化
+  | 'quiz'; // 测评与心理测试
 
 /**
  * 工具元数据接口
@@ -98,6 +99,10 @@ export const TOOL_CATEGORIES: Record<
   physics: {
     label: '物理模拟',
     description: '基于 Matter.js 的 2D 物理引擎可视化与配置工具',
+  },
+  quiz: {
+    label: '趣味测评',
+    description: 'MBTI 等人格与趣味心理测评工具，纯本地计算',
   },
 };
 
@@ -207,6 +212,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     keywords: ['json', 'format', 'beautify', 'minify', 'pretty', 'validate', 'parse', '格式化', '美化', '压缩', '校验', '缩进'],
     icon: 'Braces',
     componentPath: '@/components/tools/json-formatter',
+    runtime: 'client',
+  },
+
+  // --- 趣味测评类 ------------------------------------------------------------
+  {
+    id: 'mbti-test',
+    name: 'MBTI 人格测试',
+    description: '极速版 20 题 / 精准版 60 题，纯本地运算的人格类型测评，附维度得分与报告',
+    category: 'quiz',
+    keywords: ['mbti', 'personality', 'test', 'psychology', '性格', '人格', '测试', '心理', '16型人格', 'MBTI'],
+    icon: 'Brain',
+    componentPath: '@/components/tools/mbti-test',
     runtime: 'client',
   },
 ];

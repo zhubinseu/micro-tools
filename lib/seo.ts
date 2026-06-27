@@ -69,6 +69,7 @@ const CATEGORY_TO_SCHEMA: Record<ToolCategory, string> = {
   generator: 'UtilitiesApplication',
   media: 'MultimediaApplication',
   physics: 'EducationalApplication',
+  quiz: 'EducationalApplication',
 };
 
 // ---------------------------------------------------------------------------

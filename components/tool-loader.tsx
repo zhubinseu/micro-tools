@@ -71,6 +71,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
     loading: ToolLoading,
     ssr: false,
   }),
+  'mbti-test': dynamic(() => import('@/components/tools/mbti-test'), {
+    loading: ToolLoading,
+    ssr: false,
+  }),
 };
 
 interface ToolLoaderProps {
