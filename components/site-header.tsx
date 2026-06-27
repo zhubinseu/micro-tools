@@ -34,25 +34,25 @@ export function SiteHeader() {
             首页
           </Link>
           <Link
-            href="/tools/mbti-test"
-            className="text-foreground/60 transition-colors hover:text-foreground"
-          >
-            MBTI 测试
-          </Link>
-          <Link
             href="/tools"
             className="text-foreground/60 transition-colors hover:text-foreground"
           >
             工具集
           </Link>
           <a
-            href="https://github.com"
+            href="https://game.bayaba.top"
             target="_blank"
             rel="noreferrer"
             className="text-foreground/60 transition-colors hover:text-foreground"
           >
-            GitHub
+            游戏
           </a>
+          <Link
+            href="/tools/mbti-test"
+            className="text-foreground/60 transition-colors hover:text-foreground"
+          >
+            MBTI 测试
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
