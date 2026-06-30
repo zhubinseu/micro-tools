@@ -89,6 +89,8 @@ export interface SbtiPersonality {
   tendency: string;
   /** 人格描述（娱乐向） */
   description: string;
+  /** 头像图片路径（有则为 /sbti/avatars/{code}.png） */
+  avatar?: string;
   /** 匹配条件（隐藏人格可为空，由触发逻辑直接分配） */
   conditions?: PersonalityCondition[];
   /** 是否隐藏人格 */
@@ -339,6 +341,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '深夜两点的脑内审判庭，永远在给自己定罪',
     tendency: 'S1、S2 双高，情绪敏感，轻度讨好，长期自我攻击内耗',
     description: '你是行走的"自我审判机器"——别人一句无心的话，能在你脑子里循环播放三天三夜。你不是不努力，是努力完了还要质问自己"是不是还不够好"。建议把内耗的电量分一点给发呆，世界不会因此崩塌。',
+    avatar: '/sbti/avatars/IMSB.png',
     conditions: [
       { dimension: 'S1', level: 'high' },
       { dimension: 'S2', level: 'high' },
@@ -350,6 +353,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '全方位精神枯竭，活着但已经不太想动',
     tendency: 'S 全维度高分，重度拖延 + 社交疏离，精神电量长期 1%',
     description: '你不是死了，你只是"在线但隐身"。该吃吃该睡睡，但灵魂已经下线。社交能量条永远红的，计划本永远停在第一页。别勉强自己复活，先躺平充会儿电——记得翻身。',
+    avatar: '/sbti/avatars/DEAD.png',
     conditions: [
       { dimension: 'S1', level: 'high' },
       { dimension: 'S2', level: 'high' },
@@ -363,6 +367,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '渴望拥抱又怕被碰碎，把自己活成玻璃信徒',
     tendency: 'S3 价值空虚 + E3 内心脆弱，渴望亲密但极度害怕受伤',
     description: '你想要有人懂你，又害怕对方靠太近。每段关系开始前你已经在预演失去。你不是冷漠，你是太脆了，所以干脆把自己包成防震快递。建议偶尔拆包装，世界没你想的那么暴力。',
+    avatar: '/sbti/avatars/IMFW.png',
     conditions: [
       { dimension: 'S3', level: 'high' },
       { dimension: 'E3', level: 'high' },
@@ -375,6 +380,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '行走的提款机，不会拒绝是出厂设置',
     tendency: 'A2 拉满 + Ac2 高分，不懂拒绝，无社交边界，习惯性付出消耗自己',
     description: '你是朋友圈里的"人形ATM"——不是钱，是情绪和精力的ATM。谁开口你都答应，谁麻烦你都接，最后自己透支还得装没事。建议在胸口贴一张"今日额度已满"的告示。',
+    avatar: '/sbti/avatars/ATM-er.png',
     conditions: [
       { dimension: 'A2', level: 'high' },
       { dimension: 'Ac2', level: 'high' },
@@ -386,6 +392,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '操碎了所有人的心，唯独忘了自己',
     tendency: '共情能力极强，下意识照顾所有人情绪',
     description: '你看到朋友没吃饭比自己饿还难受，听到别人叹气就开始盘算怎么帮。你不是妈，你是妈的加强版。记得偶尔当一回孩子，让别人也照顾照顾你。',
+    avatar: '/sbti/avatars/MUM.png',
     conditions: [
       { dimension: 'A3', level: 'high' },
       { dimension: 'E2', level: 'high' },
@@ -397,6 +404,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '心动是常态，深情是常态，扎心也是常态',
     tendency: '极度渴求深度亲密，极易共情他人悲欢',
     description: '你谈的不是恋爱，是"灵魂共振工程"。一句晚安能脑补一整部偶像剧，一个眼神能写三千字小作文。你的多情是天赋也是诅咒，建议给心上装个阀门。',
+    avatar: '/sbti/avatars/LOVE-R.png',
     conditions: [
       { dimension: 'So2', level: 'high' },
       { dimension: 'A3', level: 'high' },
@@ -409,6 +417,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '规矩是给别人定的，我只服我自己',
     tendency: '厌恶规则束缚，抗拒社交，从不迁就他人',
     description: '你是行走的"我不"——别人约你，你不；别人建议，你不；连你自己定的计划，你也"不"。你的自由是真的，孤独也是真的。建议偶尔让一让，世界不会因为你妥协一次就塌。',
+    avatar: '/sbti/avatars/FUCK.png',
     conditions: [
       { dimension: 'A1', level: 'high' },
       { dimension: 'So1', level: 'high' },
@@ -420,6 +429,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '嘴上骂骂咧咧，心里其实很在乎',
     tendency: '内心尖锐直白，看不惯世俗，嘴硬心软',
     description: '你是嘴替界的劳模——朋友圈里那些"说得对但不敢转发"的话都出自你。你看起来刀枪不入，其实看到老人过马路还是会扶。你的愤世是保护色，柔软才是底色。',
+    avatar: '/sbti/avatars/SHIT.png',
     conditions: [
       { dimension: 'S2', level: 'high' },
       { dimension: 'A1', level: 'high' },
@@ -431,6 +441,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '情绪外放直白，吐槽永动机',
     tendency: '情绪外放直白，反感刻板规矩，容易吐槽暴躁',
     description: '你是行走的弹幕——任何场景都能即时输出"卧槽""离谱""绝了"。你的反应永远比脑子快三秒，事后回想常常想找个地缝。但你真实得可爱，至少没人需要猜你在想什么。',
+    avatar: '/sbti/avatars/WOC.png',
     conditions: [
       { dimension: 'A1', level: 'high' },
       { dimension: 'E2', level: 'low' },
@@ -443,6 +454,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '目标感拉满，开会都自带BGM',
     tendency: '目标感拉满，喜欢规划、掌控全局',
     description: '你是行走的OKR——连周末早餐都要列三档备选方案。你不是控制狂，你只是相信"不打无准备的仗"。建议偶尔允许计划跑偏，惊喜往往藏在偏差里。',
+    avatar: '/sbti/avatars/BOSS.png',
     conditions: [
       { dimension: 'Ac2', level: 'high' },
       { dimension: 'Ac3', level: 'high' },
@@ -454,6 +466,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '看人比看书准，社交场上的隐形导演',
     tendency: '擅长洞察人心，社交游刃有余，擅长把控人际关系',
     description: '你是人形读心术——谁不开心、谁在装、谁想被夸，你一眼就读出来。你能在饭局上同时照顾六个人的情绪，还能不动声色推进自己的目的。技能点满，但记得别把自己也算计进去。',
+    avatar: '/sbti/avatars/CTRL.png',
     conditions: [
       { dimension: 'Ac2', level: 'high' },
       { dimension: 'So3', level: 'high' },
@@ -465,6 +478,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '想到就做，做完就撤，绝不拖堂',
     tendency: '自律不拖延，行动力强，想到就做',
     description: '你是行走的"已完成"——别人的To-Do列表还在P0，你已经划掉三行了。你不理解为什么有人能拖到deadline前夜，也不理解"再想想"。建议偶尔停下来想想，路上的风景也不错。',
+    avatar: '/sbti/avatars/GOGO.png',
     conditions: [
       { dimension: 'Ac1', level: 'low' },
       { dimension: 'Ac2', level: 'high' },
@@ -477,6 +491,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '脑内小剧场24小时不间断，但身体在罢工',
     tendency: '爱胡思乱想，重度拖延，回避热闹社交',
     description: '你是思想界的劳模、行动界的失踪人口。脑子里已经推演完宇宙起源，身体却还在床上没起来。你的深度是天赋，但深度没有产出就只是内耗。建议把想法写下来，哪怕一行。',
+    avatar: '/sbti/avatars/THIN-K.png',
     conditions: [
       { dimension: 'S2', level: 'high' },
       { dimension: 'Ac1', level: 'high' },
@@ -488,6 +503,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '低欲望佛系，看淡一切包括自己',
     tendency: '低欲望佛系，虚无感中等，不争不抢',
     description: '你已经提前进入"出家预备役"——升职加薪？随缘。恋爱脱单？随缘。今晚吃啥？都行。你的佛系是真的，但偶尔也要提防是真的看破还是真的摆烂。',
+    avatar: '/sbti/avatars/MONK.png',
     conditions: [
       { dimension: 'S2', level: 'mid' },
       { dimension: 'Ac1', level: 'high' },
@@ -500,6 +516,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '全维度均衡偏低，摆烂界的端水大师',
     tendency: '全维度均衡偏低，摆烂躺平，无欲无求',
     description: '你是吗喽本喽——什么都不突出，什么都不垫底，主打一个"均匀地摆"。你的快乐是真的，因为你对啥都没期待。继续保持，但记得偶尔抬头看看路。',
+    avatar: '/sbti/avatars/MALO.png',
     conditions: [
       { dimension: 'S1', level: 'low' },
       { dimension: 'Ac2', level: 'low' },
@@ -512,6 +529,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '床是第一生产力，枕头是最佳搭档',
     tendency: '重度拖延，社交耗能，只想躺平休息',
     description: '你的理想生活是"睡到自然醒，醒着想睡回"。社交是耗电，工作是耗电，连思考都耗电。建议给自己设个最低活动量，不然真的会退化成植物。',
+    avatar: '/sbti/avatars/ZZZZ.png',
     conditions: [
       { dimension: 'Ac1', level: 'high' },
       { dimension: 'So1', level: 'high' },
@@ -523,6 +541,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '摆烂天花板，看淡一切包括摆烂本身',
     tendency: '摆烂天花板，无任何规划，看淡一切',
     description: '你不是在摆烂，你是在"躺平即正义"的修行。其他摆烂人还在找借口，你已经连借口都不找了。你是摆烂界的祖师爷，建议收徒开课，广渡众生。',
+    avatar: '/sbti/avatars/GIGILORD.png',
     conditions: [
       { dimension: 'Ac1', level: 'high' },
       { dimension: 'Ac2', level: 'low' },
@@ -535,6 +554,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '人设切换比换衣服还快，自己都分不清哪个是真的',
     tendency: '多面人设，外在表现与内心反差巨大',
     description: '你是行走的"社交变声器"——同事面前一个样，家人面前一个样，网友面前又一个样。这不是虚伪，这是生存技能。但记得找个地方卸妆，不然真忘了自己长啥样。',
+    avatar: '/sbti/avatars/FAKE.png',
     conditions: [
       { dimension: 'So3', level: 'high' },
       { dimension: 'E2', level: 'low' },
@@ -546,6 +566,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '社交能量条出厂就低，独处是唯一充电口',
     tendency: '社交疏离，遇事独自扛，很少找人倾诉',
     description: '你不是没朋友，你是"一个人待着更舒服"。朋友约你内心抗拒，朋友不约你又有点落寞。建议培养一两个能"不说话也不尴尬"的关系，比硬凑热闹强。',
+    avatar: '/sbti/avatars/SOLO.png',
     conditions: [
       { dimension: 'So1', level: 'high' },
       { dimension: 'A3', level: 'high' },
@@ -557,6 +578,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '人前笑料担当，人后 emo 担当',
     tendency: '人前搞笑开朗，独处空虚压抑，隐藏负面情绪',
     description: '你是朋友圈的开心果，也是深夜的朋友圈访客。你的搞笑是真的，emo 也是真的。建议别把所有负面都藏进段子里，偶尔认真说一次"我不太行"，没人会笑你。',
+    avatar: '/sbti/avatars/JOKE-R.png',
     conditions: [
       { dimension: 'So3', level: 'high' },
       { dimension: 'S3', level: 'high' },
@@ -569,6 +591,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '不刻意却自带磁场，亲和力是出厂配置',
     tendency: '共情适度，擅长拉近人际关系，自带亲和力魅力',
     description: '你不是在撩人，你只是"让人舒服"。别人和你聊天像泡温泉，不费力还放松。你的魅力不靠颜值靠频率，建议多出门，世界需要你的温度。',
+    avatar: '/sbti/avatars/SEXY.png',
     conditions: [
       { dimension: 'So2', level: 'mid' },
       { dimension: 'E1', level: 'low' },
@@ -581,6 +604,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '内耗绝缘体，松弛感天花板',
     tendency: '几乎无内耗，看淡他人评价，心态松弛',
     description: '你是行走的"OK"——别人在纠结，你在"都行"；别人在焦虑，你在"没事"。你的松弛是真的，但偶尔也要警惕是不是麻木。该在意的还是要在意一点。',
+    avatar: '/sbti/avatars/OJBK.png',
     conditions: [
       { dimension: 'S1', level: 'low' },
       { dimension: 'S3', level: 'low' },
@@ -592,6 +616,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '焦虑发作三秒就过，emo 永远是限定款',
     tendency: '容易为小事焦虑，但不会长期陷在内耗里',
     description: '你是"三秒焦虑选手"——刚"完了完了"完，下一秒"哦没事了"。你的情绪来得快走得也快，是健康的轻度神经质。建议把这个技能传授给内耗星人，造福人类。',
+    avatar: '/sbti/avatars/OH-NO.png',
     conditions: [
       { dimension: 'E2', level: 'mid' },
       { dimension: 'S3', level: 'low' },
@@ -602,6 +627,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '自我贬低是社交开场白，讨好是默认模式',
     tendency: '深层自卑，习惯性自我贬低，讨好型人格',
     description: '你开口第一句永远是"我不行""我太菜了"——但下一秒又默默把事做完了。你的自卑是习惯，不是事实。建议把"我不行"改成"我试试"，世界会温柔很多。',
+    avatar: '/sbti/avatars/POOR.png',
     conditions: [
       { dimension: 'S1', level: 'high' },
       { dimension: 'A2', level: 'high' },
@@ -613,6 +639,7 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '温柔共情 + 容易知足，内耗界的稀有种',
     tendency: '温柔共情，容易知足，极少陷入自我内耗',
     description: '你是朋友圈的"小太阳"——别人emo找你，你不emo也不嫌烦。你能在小事里找到快乐，一顿好饭、一句关心都能让你满足。建议保护好自己，别被吸血鬼朋友吸干。',
+    avatar: '/sbti/avatars/THAN-K.png',
     conditions: [
       { dimension: 'A3', level: 'high' },
       { dimension: 'S1', level: 'low' },
@@ -625,12 +652,14 @@ export const SBTI_PERSONALITIES: SbtiPersonality[] = [
     tagline: '酒精解锁的人格分支，清醒时根本不认识',
     tendency: '饮酒触发，虚无悲观 + 重度摆烂双重倾向',
     description: '恭喜（？）你触发了隐藏人格——DRUNK 酒鬼。清醒时的你是另一个人，酒后才是真正的"你"。建议：少喝点，多喝水。世界不会因为你不喝酒就变差，但你的肝会感谢你。',
+    avatar: '/sbti/avatars/DRUNK.png',
   },
   {
     code: 'HHHH', nickname: '傻乐者', alias: 'The Happy Fool', group: 'hidden', hidden: true,
     tagline: '所有维度无突出高分，快乐才是出厂设置',
     tendency: '兜底人格，匹配度过低自动分配',
     description: '恭喜你触发了隐藏人格——HHHH 傻乐者。你既不深度内耗，也不重度摆烂，所有维度都平平无奇，反而成了最稀有的"快乐绝缘体"。建议继续保持，世界需要你这样的正常人。',
+    avatar: '/sbti/avatars/HHHH.png',
   },
 ];
 

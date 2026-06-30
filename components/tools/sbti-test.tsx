@@ -547,6 +547,15 @@ function ResultScreen({
             {personality.alias}
           </span>
         </p>
+        {personality.avatar && (
+          <div className="mt-4 flex justify-center">
+            <img
+              src={personality.avatar}
+              alt={`${personality.nickname} 头像`}
+              className="h-48 w-auto rounded-lg object-contain shadow-sm"
+            />
+          </div>
+        )}
         <div className="mt-2 flex items-center justify-center gap-2">
           <span
             className={cn(
