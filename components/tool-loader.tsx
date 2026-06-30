@@ -75,6 +75,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
     loading: ToolLoading,
     ssr: false,
   }),
+  'sbti-test': dynamic(() => import('@/components/tools/sbti-test'), {
+    loading: ToolLoading,
+    ssr: false,
+  }),
 };
 
 interface ToolLoaderProps {

@@ -122,6 +122,16 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     componentPath: '@/components/tools/mbti-test',
     runtime: 'client',
   },
+  {
+    id: 'sbti-test',
+    name: 'SBTI 娱乐人格测试',
+    description: '30 题三选一测出你的网络人格代号，15 维度 + 27 种人格（含 2 隐藏），纯娱乐向',
+    category: 'quiz',
+    keywords: ['sbti', 'entertainment', 'personality', 'test', 'meme', '娱乐', '人格', '测试', '玩梗', '网络人格', 'SBTI'],
+    icon: 'Drama',
+    componentPath: '@/components/tools/sbti-test',
+    runtime: 'client',
+  },
 
   // --- 编解码类 --------------------------------------------------------------
   {

@@ -18,6 +18,7 @@ import {
   Atom,
   Braces,
   Brain,
+  Drama,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -33,6 +34,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Atom,
   Braces,
   Brain,
+  Drama,
 };
 
 /** 默认回退图标 */
