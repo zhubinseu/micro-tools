@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Micro-Tools Cloudflare Pages 部署指南</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f8fafc; color: #1e293b; line-height: 1.7; padding: 2rem;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; color: #0f172a; }
+    h1 .emoji { margin-right: 0.5rem; }
+    .subtitle { color: #64748b; margin-bottom: 2.5rem; font-size: 0.95rem; }
+    h2 {
+      font-size: 1.3rem; margin: 2.5rem 0 1rem; color: #0f172a;
+      border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;
+    }
+    h3 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: #1e293b; }
+    p { margin-bottom: 0.75rem; }
+    code {
+      background: #f1f5f9; color: #be185d; padding: 0.15em 0.4em;
+      border-radius: 4px; font-size: 0.88em; font-family: "SF Mono", "Fira Code", monospace;
+    }
+    pre {
+      background: #0f172a; color: #e2e8f0; padding: 1rem 1.25rem; border-radius: 8px;
+      overflow-x: auto; margin: 0.75rem 0 1.25rem; font-size: 0.85rem; line-height: 1.6;
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+    .comment { color: #64748b; }
+    .string { color: #93c5fd; }
+    .keyword { color: #c4b5fd; }
+    .number { color: #fcd34d; }
+    table {
+      width: 100%; border-collapse: collapse; margin: 0.75rem 0 1.25rem;
+      font-size: 0.9rem; border-radius: 8px; overflow: hidden;
+    }
+    th { background: #1e293b; color: #f1f5f9; padding: 0.6rem 1rem; text-align: left; }
+    td { padding: 0.5rem 1rem; border-bottom: 1px solid #e2e8f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    .card {
+      background: white; border-radius: 12px; padding: 1.5rem; margin: 1rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;
+    }
+    .alert {
+      border-left: 4px solid; padding: 0.75rem 1rem; border-radius: 0 8px 8px 0;
+      margin: 0.75rem 0; font-size: 0.9rem;
+    }
+    .alert-warn { background: #fffbeb; border-color: #f59e0b; color: #78350f; }
+    .alert-danger { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+    .alert-success { background: #f0fdf4; border-color: #22c55e; color: #14532d; }
+    .alert-info { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+    .step {
+      display: flex; gap: 1rem; margin: 1rem 0; align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+      background: #3b82f6; color: white; display: flex; align-items: center;
+      justify-content: center; font-weight: 700; font-size: 0.9rem;
+    }
+    .step-content { flex: 1; }
+    .badge {
+      display: inline-block; padding: 0.15em 0.6em; border-radius: 9999px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .badge-recommended { background: #dbeafe; color: #1e40af; }
+    .badge-cli { background: #f3e8ff; color: #6b21a8; }
+    .toc {
+      background: white; border-radius: 12px; padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .toc-title { font-weight: 700; margin-bottom: 0.5rem; color: #0f172a; }
+    .toc ul { list-style: none; padding-left: 0; }
+    .toc li { padding: 0.2rem 0; }
+    .toc a { color: #3b82f6; text-decoration: none; font-size: 0.9rem; }
+    .toc a:hover { text-decoration: underline; }
+    .config-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;
+    }
+    .config-item {
+      background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .config-label { font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem; }
+    .config-value { font-weight: 600; color: #1e293b; }
+    .config-value .check { color: #22c55e; }
+    .config-value .x { color: #ef4444; }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1><span class="emoji">🚀</span>Micro-Tools → Cloudflare Pages 部署指南</h1>
+  <p class="subtitle">Next.js 14 静态导出 + Cloudflare Pages CDN 边缘分发 · 完整步骤 + 避坑要点</p>
+
+  <div class="toc">
+    <div class="toc-title">📑 目录</div>
+    <ul>
+      <li><a href="#overview">项目架构概览</a></li>
+      <li><a href="#method-a">方案 A：Dashboard + GitHub 自动部署（推荐）</a></li>
+      <li><a href="#method-b">方案 B：Wrangler CLI 手动部署</a></li>
+      <li><a href="#verify">部署后验证清单</a></li>
+      <li><a href="#custom-domain">绑定自定义域名（可选）</a></li>
+      <li><a href="#troubleshooting">常见问题排查</a></li>
+    </ul>
+  </div>
+
+  <!-- ==================== 架构概览 ==================== -->
+  <h2 id="overview">📋 项目架构概览</h2>
+  <div class="card">
+    <table>
+      <tr><th>维度</th><th>配置</th></tr>
+      <tr><td>框架</td><td>Next.js 14.2.35 (App Router)</td></tr>
+      <tr><td>导出模式</td><td><code>output: 'export'</code> 纯静态导出 → <code>out/</code> 目录</td></tr>
+      <tr><td>构建命令</td><td><code>npm run build</code></td></tr>
+      <tr><td>输出目录</td><td><code>out/</code></td></tr>
+      <tr><td>边缘函数</td><td><code>functions/</code> 目录 (Pages Functions, 可选)</td></tr>
+      <tr><td>静态页面数</td><td>16 个预渲染页面 + sitemap.xml + robots.txt</td></tr>
+      <tr><td>Node.js 版本要求</td><td>≥ 18.17.0</td></tr>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    💡 <strong>核心要点</strong>：本项目是<strong>纯静态导出</strong>，Cloudflare Pages 只需托管 <code>out/</code> 目录的静态文件，无需服务端运行时。所有计算（WASM、Web Worker、Canvas）均在浏览器本地执行。
+  </div>
+
+  <!-- ==================== 方案 A ==================== -->
+  <h2 id="method-a">方案 A：Dashboard + GitHub 自动部署 <span class="badge badge-recommended">⭐ 推荐</span></h2>
+
+  <p>连接 GitHub 仓库后，每次 <code>git push</code> 到 <code>main</code> 分支自动触发部署，无需本地配置任何凭证。</p>
+
+  <h3>第 1 步：确保代码已推送到 GitHub</h3>
+  <pre><code><span class="comment"># 确认远程仓库</span>
+git remote -v
+<span class="comment"># origin  https://github.com/zhubinseu/micro-tools.git</span>
+
+<span class="comment"># 确认最新代码已推送</span>
+git log origin/main --oneline -3</code></pre>
+
+  <h3>第 2 步：授权 Cloudflare 访问 GitHub 仓库</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      打开 <a href="https://github.com/settings/installations" target="_blank">https://github.com/settings/installations</a><br>
+      找到 <strong>Cloudflare Pages</strong> → 点击 <strong>Configure</strong>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      在 <strong>Repository access</strong> 中选择 <strong>Only select repositories</strong><br>
+      从下拉列表中添加 <code>micro-tools</code> 仓库，点击 <strong>Save</strong>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    ⚠️ <strong>常见坑</strong>：如果在 Cloudflare 中看不到仓库，99% 是这一步没配。GitHub App 默认不授权新仓库，必须手动添加。
+  </div>
+
+  <h3>第 3 步：在 Cloudflare 创建 Pages 项目</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      打开 <a href="https://dash.cloudflare.com/" target="_blank">Cloudflare Dashboard</a> → 左侧 <strong>Workers & Pages</strong>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      点击 <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      授权 GitHub → 选择 <code>zhubinseu/micro-tools</code> 仓库 → 点击 <strong>Begin setup</strong>
+    </div>
+  </div>
+
+  <h3>第 4 步：配置构建设置（关键！）</h3>
+  <div class="card">
+    <div class="config-grid">
+      <div class="config-item">
+        <div class="config-label">Project name</div>
+        <div class="config-value">micro-tools</div>
+      </div>
+      <div class="config-item">
+        <div class="config-label">Production branch</div>
+        <div class="config-value">main</div>
+      </div>
+      <div class="config-item">
+        <div class="config-label">Framework preset</div>
+        <div class="config-value">None</div>
+      </div>
+      <div class="config-item">
+        <div class="config-label">Build command</div>
+        <div class="config-value"><code>npm run build</code></div>
+      </div>
+      <div class="config-item">
+        <div class="config-label">Build output directory</div>
+        <div class="config-value"><code>out</code></div>
+      </div>
+      <div class="config-item">
+        <div class="config-label">Root directory</div>
+        <div class="config-value"><code>/</code></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger">
+    🚨 <strong>最大避坑点</strong>：Framework preset 必须选 <code>None</code>！<br><br>
+    如果选了 <code>Next.js</code>，Cloudflare 会强制要求填写 <strong>Deploy command</strong> 和 <strong>Version command</strong>（且无法删除），导致 <code>wrangler deploy</code> 报错 <em>"Workers-specific command in a Pages project"</em>。<br><br>
+    <strong>如果已经选了 Next.js 且无法删除 Deploy command</strong>：把 Framework preset 改为 <code>None</code>，两个字段就会自动消失或变为可选。
+  </div>
+
+  <h3>第 5 步：配置环境变量（可选）</h3>
+  <p>在 <strong>Environment variables</strong> 区域添加：</p>
+  <table>
+    <tr><th>变量名</th><th>值</th><th>说明</th></tr>
+    <tr><td><code>NODE_VERSION</code></td><td><code>20</code></td><td>指定 Node.js 版本</td></tr>
+  </table>
+
+  <h3>第 6 步：部署</h3>
+  <p>点击 <strong>Save and Deploy</strong>，等待构建完成（约 1-2 分钟）。</p>
+
+  <div class="alert alert-success">
+    ✅ <strong>部署成功后</strong>，你会获得一个 <code>https://micro-tools.pages.dev</code> 地址。之后每次 <code>git push origin main</code> 都会自动触发重新部署。
+  </div>
+
+  <!-- ==================== 方案 B ==================== -->
+  <h2 id="method-b">方案 B：Wrangler CLI 手动部署 <span class="badge badge-cli">终端操作</span></h2>
+
+  <p>适合不想连接 GitHub、或需要本地控制部署时机的场景。</p>
+
+  <h3>第 1 步：创建 Cloudflare API Token</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      打开 <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank">https://dash.cloudflare.com/profile/api-tokens</a>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      点击 <strong>Create Token</strong> → 选择模板 <strong>Edit Cloudflare Workers</strong>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      确认权限包含：<code>Account - Pages - Edit</code> → 创建并复制 Token
+    </div>
+  </div>
+
+  <div class="alert alert-danger">
+    🚨 <strong>Token 权限必须包含 <code>Pages - Edit</code></strong>，否则部署时会报 <code>Authentication error [code: 10000]</code>。
+  </div>
+
+  <h3>第 2 步：本地构建</h3>
+  <pre><code><span class="comment"># 进入项目目录</span>
+cd /path/to/micro-tools
+
+<span class="comment"># 安装依赖（首次）</span>
+npm install
+
+<span class="comment"># 静态导出构建，产物输出到 out/</span>
+npm run build</code></pre>
+
+  <h3>第 3 步：部署到 Cloudflare Pages</h3>
+  <pre><code><span class="comment"># 设置 API Token 环境变量</span>
+export CLOUDFLARE_API_TOKEN="你的Token值"
+
+<span class="comment"># 部署（注意：必须用 pages deploy，不是 wrangler deploy！）</span>
+npx wrangler pages deploy out --project-name=micro-tools</code></pre>
+
+  <div class="alert alert-warn">
+    ⚠️ <strong>命令区别</strong>：<br>
+    ✅ <code>npx wrangler <strong>pages</strong> deploy out</code> — Pages 项目部署<br>
+    ❌ <code>npx wrangler deploy</code> — Workers 项目部署，Pages 项目不能用！
+  </div>
+
+  <p>或者直接用 <code>package.json</code> 中已配置好的命令：</p>
+  <pre><code>export CLOUDFLARE_API_TOKEN="你的Token值"
+npm run deploy  <span class="comment"># 等价于 wrangler pages deploy out</span></code></pre>
+
+  <h3>首次部署会提示创建项目</h3>
+  <p>如果项目不存在，Wrangler 会询问是否创建。输入 <code>y</code> 确认即可。</p>
+
+  <!-- ==================== 验证 ==================== -->
+  <h2 id="verify">✅ 部署后验证清单</h2>
+
+  <div class="card">
+    <h3>基础检查</h3>
+    <table>
+      <tr><th>检查项</th><th>方法</th><th>预期</th></tr>
+      <tr><td>首页可访问</td><td>访问 <code>https://micro-tools.pages.dev/</code></td><td>显示工具列表页</td></tr>
+      <tr><td>工具页可访问</td><td>访问 <code>/tools/base64-codec/</code></td><td>显示 Base64 工具</td></tr>
+      <tr><td>Sitemap</td><td>访问 <code>/sitemap.xml</code></td><td>XML 格式，10+ URL</td></tr>
+      <tr><td>Robots</td><td>访问 <code>/robots.txt</code></td><td>包含 Sitemap 引用</td></tr>
+      <tr><td>命令面板</td><td>按 <code>⌘K</code> / <code>Ctrl+K</code></td><td>弹出搜索面板</td></tr>
+      <tr><td>物理配置器</td><td>访问 <code>/tools/physics-configurator/</code></td><td>Matter.js 画布运行</td></tr>
+      <tr><td>图片压缩</td><td>访问 <code>/tools/image-compressor/</code></td><td>拖拽上传正常</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>SEO 检查</h3>
+    <table>
+      <tr><th>检查项</th><th>方法</th></tr>
+      <tr><td>页面标题</td><td>浏览器标签页显示 <code>工具名 · Micro-Tools</code></td></tr>
+      <tr><td>Meta description</td><td>查看源码 <code>&lt;meta name="description"&gt;</code> 存在</td></tr>
+      <tr><td>OpenGraph</td><td>查看源码 <code>og:title</code> / <code>og:description</code> 存在</td></tr>
+      <tr><td>JSON-LD</td><td>查看源码有 <code>application/ld+json</code> 脚本（3 段）</td></tr>
+      <tr><td>Canonical URL</td><td>查看源码 <code>&lt;link rel="canonical"&gt;</code> 存在</td></tr>
+    </table>
+  </div>
+
+  <!-- ==================== 自定义域名 ==================== -->
+  <h2 id="custom-domain">🌐 绑定自定义域名（可选）</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      在 Cloudflare Dashboard → 你的 Pages 项目 → <strong>Custom domains</strong>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      点击 <strong>Set up a custom domain</strong> → 输入你的域名
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      如果域名在 Cloudflare DNS 管理，会自动添加 CNAME 记录；否则需手动添加：
+      <pre><code>CNAME  www  micro-tools.pages.dev</code></pre>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      等待 DNS 生效 + SSL 证书自动签发（通常几分钟内完成）
+    </div>
+  </div>
+
+  <!-- ==================== 故障排查 ==================== -->
+  <h2 id="troubleshooting">🔧 常见问题排查</h2>
+
+  <div class="card">
+    <h3>问题 1：选不到 GitHub 仓库</h3>
+    <p><strong>原因</strong>：GitHub App 未授权该仓库</p>
+    <p><strong>解决</strong>：访问 <code>github.com/settings/installations</code> → Cloudflare Pages → Configure → 添加仓库</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 2："Workers-specific command in a Pages project"</h3>
+    <p><strong>原因</strong>：Framework preset 选了 Next.js，Deploy command 被强制设为 <code>wrangler deploy</code></p>
+    <p><strong>解决</strong>：Framework preset 改为 <code>None</code>，Deploy command 字段自动消失</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 3："Authentication error [code: 10000]"</h3>
+    <p><strong>原因</strong>：API Token 缺少 Pages 写权限</p>
+    <p><strong>解决</strong>：重新创建 Token，确保包含 <code>Account - Pages - Edit</code> 权限</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 4：Deploy command / Version command 无法删除</h3>
+    <p><strong>原因</strong>：Framework preset 不是 None</p>
+    <p><strong>解决</strong>：将 Framework preset 改为 <code>None</code>，两个字段变为可编辑或自动移除</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 5：构建成功但页面 404</h3>
+    <p><strong>原因</strong>：Build output directory 配置错误</p>
+    <p><strong>解决</strong>：确认设为 <code>out</code>（不是 <code>dist</code> / <code>build</code> / <code>/</code>）</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 6：sitemap.xml 在开发模式报错</h3>
+    <p><strong>原因</strong>：Next.js 14 <code>output: 'export'</code> 与 Metadata Routes 在 dev 模式的已知 bug</p>
+    <p><strong>解决</strong>：不影响生产环境。<code>npm run build</code> 生成的 <code>out/sitemap.xml</code> 完全正常</p>
+  </div>
+
+  <div class="card">
+    <h3>问题 7：本地 dev 服务器启动后端口被释放</h3>
+    <p><strong>原因</strong>：<code>nohup npm run dev &</code> 启动的进程随 shell 退出被回收</p>
+    <p><strong>解决</strong>：使用后台任务方式启动，或直接在前端终端运行 <code>npm run dev</code></p>
+  </div>
+
+  <!-- ==================== 速查表 ==================== -->
+  <h2>📌 命令速查表</h2>
+  <pre><code><span class="comment"># ─── 本地开发 ───</span>
+npm run dev          <span class="comment"># 启动开发服务器 (localhost:3000)</span>
+npm run build        <span class="comment"># 静态导出构建 → out/</span>
+npm run type-check   <span class="comment"># TypeScript 类型检查</span>
+npx serve out        <span class="comment"># 本地预览构建产物</span>
+
+<span class="comment"># ─── Cloudflare 部署 ───</span>
+export CLOUDFLARE_API_TOKEN="your-token"
+npm run deploy       <span class="comment"># wrangler pages deploy out</span>
+
+<span class="comment"># ─── 边缘函数本地预览 ───</span>
+npx wrangler pages dev out --compatibility-date=2024-07-01
+
+<span class="comment"># ─── Git 操作 ───</span>
+git add -A
+git commit -m "feat: xxx"
+git push origin main  <span class="comment"># 自动触发 Cloudflare 部署</span></code></pre>
+
+  <div class="footer">
+    <p>Micro-Tools · Next.js 14.2.35 · Cloudflare Pages · 16 static pages</p>
+    <p>仓库：https://github.com/zhubinseu/micro-tools · 部署：https://micro-tools.pages.dev</p>
+  </div>
+
+</div>
+</body>
+</html>
