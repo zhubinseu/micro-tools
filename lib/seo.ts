@@ -23,7 +23,7 @@ import { TOOL_CATEGORIES } from '@/lib/registry';
  * 部署到自定义域名后，更新此常量即可，
  * 所有 SEO 标签和结构化数据会自动同步。
  */
-export const SITE_URL = 'https://micro-tools.pages.dev';
+export const SITE_URL = 'https://bayaba.top';
 
 /** 站点名称 */
 export const SITE_NAME = 'Micro-Tools';
