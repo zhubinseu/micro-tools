@@ -27,6 +27,7 @@ import { useTheme } from 'next-themes';
 
 import { TOOL_REGISTRY, TOOL_CATEGORIES, type ToolMeta } from '@/lib/registry';
 import { resolveIcon } from '@/components/icon-resolver';
+import { trackCommandPaletteUsed, trackThemeToggled } from '@/lib/analytics';
 
 // ---------------------------------------------------------------------------
 // 轻量模糊匹配（无需第三方库）
@@ -191,7 +192,9 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         return;
       }
       if (value.startsWith('theme:')) {
-        setTheme(value.slice('theme:'.length));
+        const themeName = value.slice('theme:'.length);
+        setTheme(themeName);
+        trackThemeToggled(themeName);
         onOpenChange(false);
         return;
       }
@@ -202,6 +205,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       }
       if (value.startsWith('tool:')) {
         const toolId = value.slice('tool:'.length);
+        trackCommandPaletteUsed(toolId);
         navigate(`/tools/${toolId}`);
         return;
       }

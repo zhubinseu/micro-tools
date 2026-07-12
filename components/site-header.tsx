@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useCommandPalette } from '@/components/command-palette';
+import { trackThemeToggled } from '@/lib/analytics';
 
 export function SiteHeader() {
   const { setTheme } = useTheme();
@@ -90,13 +91,13 @@ export function SiteHeader() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme('light')}>
+              <DropdownMenuItem onClick={() => { setTheme('light'); trackThemeToggled('light'); }}>
                 浅色
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')}>
+              <DropdownMenuItem onClick={() => { setTheme('dark'); trackThemeToggled('dark'); }}>
                 深色
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')}>
+              <DropdownMenuItem onClick={() => { setTheme('system'); trackThemeToggled('system'); }}>
                 跟随系统
               </DropdownMenuItem>
             </DropdownMenuContent>

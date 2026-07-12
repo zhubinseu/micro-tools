@@ -27,6 +27,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { useToolStore } from '@/store';
+import { trackToolCompleted, trackResultShared, trackToolRestarted } from '@/lib/analytics';
 import { getToolById } from '@/lib/registry';
 import {
   type SbtiStage,
@@ -134,6 +135,7 @@ export default function SbtiTest() {
       window.setTimeout(() => {
         setStage('result');
         recordUse(tool.id, tool.name);
+        trackToolCompleted(tool.id, 'quiz');
       }, 900);
     },
     [recordUse, tool]
@@ -153,7 +155,8 @@ export default function SbtiTest() {
     setAnswers([]);
     setDrinkAnswer(null);
     setCopied(false);
-  }, []);
+    trackToolRestarted(tool.id);
+  }, [tool.id]);
 
   // --- 计算结果 ---
   const result = useMemo<SbtiMatchResult | null>(() => {
@@ -171,6 +174,7 @@ export default function SbtiTest() {
   const handleCopy = useCallback(async () => {
     if (!result) return;
     const text = formatReport(result, scores);
+    trackResultShared(tool.id, 'copy');
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -185,7 +189,7 @@ export default function SbtiTest() {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     }
-  }, [result, scores]);
+  }, [result, scores, tool.id]);
 
   // ===========================================================================
   // 渲染：开始屏

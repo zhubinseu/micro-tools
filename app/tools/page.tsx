@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { resolveIcon } from '@/components/icon-resolver';
+import { TrackableLink } from '@/components/trackable-link';
 import {
   getToolsByCategory,
   TOOL_CATEGORIES,
@@ -48,7 +49,7 @@ export default function ToolsPage() {
               {tools.map((tool) => {
                 const Icon = resolveIcon(tool.icon);
                 return (
-                  <Link key={tool.id} href={`/tools/${tool.id}`}>
+                  <TrackableLink key={tool.id} href={`/tools/${tool.id}`} toolId={tool.id} category={tool.category}>
                     <Card className="h-full transition-all hover:border-primary/50 hover:shadow-md">
                       <CardHeader>
                         <div className="flex items-center gap-3">
@@ -79,7 +80,7 @@ export default function ToolsPage() {
                         </div>
                       </CardContent>
                     </Card>
-                  </Link>
+                  </TrackableLink>
                 );
               })}
             </div>

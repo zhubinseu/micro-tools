@@ -28,6 +28,7 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { useToolStore } from '@/store';
 import { getToolById } from '@/lib/registry';
+import { trackToolCompleted, trackResultShared, trackToolRestarted } from '@/lib/analytics';
 import {
   type TestMode,
   type TestStage,
@@ -109,6 +110,7 @@ export default function MbtiTest() {
           window.setTimeout(() => {
             setStage('result');
             recordUse(tool.id, tool.name);
+            trackToolCompleted(tool.id, 'quiz', mode ?? undefined);
           }, 800);
         }, 200);
       } else {
@@ -136,7 +138,8 @@ export default function MbtiTest() {
     setCurrentIndex(0);
     setAnswers([]);
     setCopied(false);
-  }, []);
+    trackToolRestarted(tool.id);
+  }, [tool.id]);
 
   // --- 计算结果 ---
   const result = useMemo(() => {
@@ -151,6 +154,7 @@ export default function MbtiTest() {
   const handleCopy = useCallback(async () => {
     if (!result) return;
     const text = formatReport(result.code, result.personality, result.scores, mode!);
+    trackResultShared(tool.id, 'copy');
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -166,7 +170,7 @@ export default function MbtiTest() {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     }
-  }, [result, mode]);
+  }, [result, mode, tool.id]);
 
   // ===========================================================================
   // 渲染：开始屏
