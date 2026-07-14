@@ -212,6 +212,16 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     componentPath: '@/components/tools/image-compressor',
     runtime: 'client',
   },
+  {
+    id: 'icon-extractor',
+    name: '图标提取器',
+    description: '框选图片区域，自动识别并分离其中多个图标，去背景导出为透明 PNG，纯本地处理',
+    category: 'media',
+    keywords: ['icon', 'extract', 'extractor', 'crop', 'transparent', 'png', 'background', 'remove', 'connected', '图标', '提取', '抠图', '去背景', '透明', '裁剪', '分离'],
+    icon: 'Scissors',
+    componentPath: '@/components/tools/icon-extractor',
+    runtime: 'client',
+  },
 
   // --- 物理模拟类 ------------------------------------------------------------
   {
