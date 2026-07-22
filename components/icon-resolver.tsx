@@ -20,6 +20,7 @@ import {
   Brain,
   Drama,
   Scissors,
+  PenLine,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -37,6 +38,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Brain,
   Drama,
   Scissors,
+  PenLine,
 };
 
 /** 默认回退图标 */

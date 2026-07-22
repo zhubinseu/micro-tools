@@ -67,6 +67,7 @@ const CATEGORY_TO_SCHEMA: Record<ToolCategory, string> = {
   encoder: 'DeveloperApplication',
   formatter: 'DeveloperApplication',
   generator: 'UtilitiesApplication',
+  editor: 'DeveloperApplication',
   media: 'MultimediaApplication',
   physics: 'EducationalApplication',
   quiz: 'EducationalApplication',

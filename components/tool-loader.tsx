@@ -83,6 +83,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
     loading: ToolLoading,
     ssr: false,
   }),
+  'markdown-editor': dynamic(() => import('@/components/tools/markdown-editor'), {
+    loading: ToolLoading,
+    ssr: false,
+  }),
 };
 
 interface ToolLoaderProps {

@@ -36,6 +36,7 @@ export type ToolCategory =
   | 'encoder' // 编解码
   | 'formatter' // 格式化
   | 'generator' // 生成器
+  | 'editor' // 编辑器（文档/代码编辑工作台）
   | 'media' // 图片/音视频处理
   | 'physics'; // 物理模拟与可视化
 
@@ -95,6 +96,10 @@ export const TOOL_CATEGORIES: Record<
   generator: {
     label: '生成器',
     description: 'UUID、密码、Lorem 等内容生成工具',
+  },
+  editor: {
+    label: '编辑器',
+    description: 'Markdown 等本地优先的文档编辑工作台，内容不出浏览器',
   },
   media: {
     label: '图片与媒体',
@@ -244,6 +249,18 @@ export const TOOL_REGISTRY: ToolMeta[] = [
     keywords: ['json', 'format', 'beautify', 'minify', 'pretty', 'validate', 'parse', '格式化', '美化', '压缩', '校验', '缩进'],
     icon: 'Braces',
     componentPath: '@/components/tools/json-formatter',
+    runtime: 'client',
+  },
+
+  // --- 编辑器类 --------------------------------------------------------------
+  {
+    id: 'markdown-editor',
+    name: 'Markdown 编辑器',
+    description: '本地优先的 Markdown 工作台：新建/打开/编辑/实时预览/标题目录/导入导出，自动保存，内容不出浏览器',
+    category: 'editor',
+    keywords: ['markdown', 'md', 'editor', '编辑器', '写作', '预览', '笔记', '文档', '导出'],
+    icon: 'PenLine',
+    componentPath: '@/components/tools/markdown-editor',
     runtime: 'client',
   },
 ];

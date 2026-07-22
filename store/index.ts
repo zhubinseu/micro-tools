@@ -10,3 +10,5 @@
 export { useToolStore } from './tool-store';
 export { useComputeStore } from './compute-store';
 export type { ComputeStatus } from './compute-store';
+export { useMarkdownStore, selectDirty, DEFAULT_CONTENT } from './markdown-store';
+export type { EditorMode } from './markdown-store';
